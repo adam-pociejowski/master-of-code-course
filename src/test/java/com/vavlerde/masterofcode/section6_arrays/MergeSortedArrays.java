@@ -51,7 +51,7 @@ public class MergeSortedArrays {
         }
         if (arr1Index < array1.length) {
             System.arraycopy(array1, arr1Index, merged, arr1Index + arr2Index, array1.length - arr1Index);
-        } else if (arr2Index < array2.length) {
+        } else {
             System.arraycopy(array2, arr2Index, merged, arr1Index + arr2Index, array2.length - arr2Index);
         }
         return merged;
