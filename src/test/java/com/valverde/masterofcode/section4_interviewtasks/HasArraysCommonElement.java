@@ -1,4 +1,4 @@
-package com.vavlerde.masterofcode.section4_interviewtasks;
+package com.valverde.masterofcode.section4_interviewtasks;
 
 import org.junit.jupiter.api.Test;
 

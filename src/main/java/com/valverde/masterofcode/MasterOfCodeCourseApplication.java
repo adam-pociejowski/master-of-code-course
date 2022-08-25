@@ -1,4 +1,4 @@
-package com.vavlerde.masterofcode;
+package com.valverde.masterofcode;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.vavlerde.masterofcode.section6_arrays;
+package com.valverde.masterofcode.section6_arrays;
 
 import org.junit.jupiter.api.Test;
 

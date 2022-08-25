@@ -1,6 +1,6 @@
-package com.vavlerde.masterofcode.section6_arrays;
+package com.valverde.masterofcode.section6_arrays;
 
-import com.vavlerde.masterofcode.BaseTest;
+import com.valverde.masterofcode.BaseTest;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.HashSet;

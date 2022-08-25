@@ -1,4 +1,4 @@
-package com.vavlerde.masterofcode;
+package com.valverde.masterofcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
