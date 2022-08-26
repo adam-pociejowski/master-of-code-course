@@ -1,4 +1,4 @@
-package com.valverde.masterofcode.section7_hashtable;
+package com.valverde.masterofcode.section7_hashtables;
 
 import com.valverde.masterofcode.BaseTest;
 import org.junit.jupiter.api.Test;
