@@ -19,17 +19,16 @@ public class AdjacencyListGraphImplementation {
         graph.addVertex("4");
         graph.addVertex("5");
         graph.addVertex("6");
-        graph.addEdge("3", "1");
-        graph.addEdge("3", "4");
-        graph.addEdge("4", "2");
-        graph.addEdge("4", "5");
-        graph.addEdge("1", "2");
-        graph.addEdge("1", "0");
+        graph.addEdge("0", "1");
         graph.addEdge("0", "2");
-        graph.addEdge("6", "5");
+        graph.addEdge("1", "2");
+        graph.addEdge("1", "3");
+        graph.addEdge("2", "4");
+        graph.addEdge("3", "4");
+        graph.addEdge("4", "5");
+        graph.addEdge("5", "6");
         graph.showConnections();
     }
-
 
     static class AdjacencyListGraph {
         final Map<String, List<String>> graphMap = new HashMap<>();
@@ -51,7 +50,7 @@ public class AdjacencyListGraphImplementation {
             graphMap.forEach((key, value) -> {
                 System.out.printf("[%s] -> ", key);
                 value.forEach((String v) -> System.out.printf("| %s ", v));
-                System.out.println();
+                System.out.println("|");
             });
         }
     }
