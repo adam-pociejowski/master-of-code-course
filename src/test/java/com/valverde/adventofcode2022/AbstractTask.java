@@ -5,9 +5,19 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractTask {
+
+    Set<String> stringToCharactersSet(String string) {
+        Set<String> set = new HashSet<>();
+        for (int i = 0 ; i < string.length(); i++) {
+            set.add(String.valueOf(string.charAt(i)));
+        }
+        return set;
+    }
 
     List<String> readStringLines(final String fileName) {
         final File file = new File("input/%s".formatted(fileName));
