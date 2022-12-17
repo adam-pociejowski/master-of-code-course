@@ -2,130 +2,162 @@ package com.valverde.adventofcode2022;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Day13 extends AbstractTask {
 
     @BeforeEach
-    void setup() {
-    }
+    void setup() { }
 
     @Test
     void solution1() {
-        List<Pair> pairs = getPairs();
+        List<ListPair> pairs = getListPairs();
         int result = 0;
-        for (Pair pair : pairs) {
-            int compare = compareList(pair.left, pair.right);
-            if (compare > 0) {
-                result += pairs.indexOf(pair) + 1;
-            } else if (compare == 0) {
-                System.out.printf("Pair %s: [%s]   [%s]  (%s)\n", pairs.indexOf(pair), pair.left, pair.right, compare);
+        for (int i = 0; i < pairs.size(); i++) {
+            ListPair listPair = pairs.get(i);
+            int compare = compare(listPair.left, listPair.right);
+            if (compare == 0) {
+                System.out.printf("ERROR: Index: %s - (%s  %s)  compare == 0", i, listPair.left, listPair.right);
+            } else if (compare == 1) {
+                result += (i + 1);
             }
-            System.out.printf("Pair %s: [%s]   [%s]  (%s)\n", pairs.indexOf(pair), pair.left, pair.right, compare);
         }
         System.out.println("SOLUTION 1: "+result);
     }
 
-    private int compareList(String left, String right) {
-        if (left.length() == 0 && right.length() == 0) {
-            return 0;
-        } else if (left.length() == 0) {
-            return 1;
-        } else if (right.length() == 0) {
-            return -1;
-        } else if (left.length() == 1 || right.length() == 1) {
-            Integer leftNumber = getFirstNumber(left);
-            Integer rightNumber = getFirstNumber(right);
-            if (Objects.isNull(leftNumber) && Objects.isNull(rightNumber)) {
-                return 0;
-            } else if (Objects.isNull(leftNumber)) {
-                return -1;
-            } else if (Objects.isNull(rightNumber)) {
-                return 1;
-            }
-            return rightNumber.compareTo(leftNumber);
+    @Test
+    void solution2() {
+        List<ListPair> pairs = getListPairs();
+        Object divider1 = parseString("[[2]]", true);
+        Object divider2 = parseString("[[6]]", true);
+        pairs.add(new ListPair(divider1, divider2));
+        List<Object> lines = pairs
+                .stream()
+                .map(p -> Arrays.asList(p.left, p.right))
+                .flatMap(Collection::stream)
+                .sorted((Object a, Object b) -> compare(b, a))
+                .toList();
+        int divider1Index = lines.indexOf(divider1) + 1;
+        int divider2Index = lines.indexOf(divider2) + 1;
+        int result = divider1Index * divider2Index;
+        System.out.println("SOLUTION 2: "+result);
+    }
+
+    private int compare(Object left, Object right) {
+        if (left instanceof Integer && right instanceof Integer) {
+            return Integer.compare((int)right, (int)left);
         }
-        List<String> leftSubLists = splitList(left);
-        List<String> rightSubLists = splitList(right);
-        Iterator<String> leftIterator = leftSubLists.iterator();
-        Iterator<String> rightIterator = rightSubLists.iterator();
-        while (leftIterator.hasNext() && rightIterator.hasNext()) {
-            String leftSubList = leftIterator.next();
-            String rightSubList = rightIterator.next();
-            int compare = compareList(leftSubList, rightSubList);
+        return compareList(left, right);
+    }
+
+    private int compareList(Object left, Object right) {
+        List<Object> leftList;
+        List<Object> rightList;
+        if (left instanceof Integer) {
+            leftList = Collections.singletonList(left);
+        } else {
+            leftList = (List<Object>)left;
+        }
+        if (right instanceof Integer) {
+            rightList = Collections.singletonList(right);
+        } else {
+            rightList = (List<Object>)right;
+        }
+        int leftIndex = 0;
+        int rightIndex = 0;
+        while (leftIndex < leftList.size() && rightIndex < rightList.size()) {
+            Object leftElement = leftList.get(leftIndex++);
+            Object rightElement = rightList.get(rightIndex++);
+            int compare = compare(leftElement, rightElement);
             if (compare != 0) {
                 return compare;
             }
         }
-        if (leftIterator.hasNext()) {
-            return -1;
-        } else if (rightIterator.hasNext()) {
-            return 1;
-        }
-        return 0;
+        return Integer.compare(rightList.size(), leftList.size());
     }
 
-    private Integer getFirstNumber(final String string) {
-        String removedBrackets = string
-                .replaceAll("\\[", "")
-                .replaceAll("]", "");
-        String numberString = removedBrackets.split(",")[0];
-        return numberString.equals("") ? null : Integer.parseInt(numberString);
-    }
-
-    private List<String> splitList(String list) {
-        int index = 0;
-        List<String> subLists = new ArrayList<>();
-        while (index < list.length()) {
-            char c = list.charAt(index);
-            if (c == '[') {
-                int startIndex = index;
-                int openBrackets = 1;
-                int closeBrackets = 0;
-                while (openBrackets > closeBrackets) {
-                    index++;
-                    char character = list.charAt(index);
-                    if (character == '[') {
-                        openBrackets++;
-                    } else if (character == ']') {
-                        closeBrackets++;
-                    }
-                }
-                subLists.add(list.substring(startIndex + 1, index));
-            } else if (c > '0' && c <= '9') {
-                subLists.add(list.substring(index, index + 1));
-            }
-            index++;
-        }
-        return subLists;
-    }
-
-    @Test
-    void solution2() {
-        final List<String> lines = readStringLines("input9.txt");
-        int result = 0;
-        System.out.println("SOLUTION 2: "+result);
-    }
-
-    private List<Pair> getPairs() {
+    private List<ListPair> getListPairs() {
         final List<String> lines = readStringLines("input13.txt");
-        List<Pair> pairs = new ArrayList<>();
+        List<ListPair> pairs = new ArrayList<>();
         for (int i = 0; i < lines.size(); i+=3) {
-            pairs.add(new Pair(
-                    lines.get(i).substring(1, lines.get(i).length() - 1),
-                    lines.get(i + 1).substring(1, lines.get(i + 1).length() - 1)));
+            List<Object> left = (List<Object>)parseString(lines.get(i), true);
+            List<Object> right = (List<Object>)parseString(lines.get(i + 1), true);
+            pairs.add(new ListPair(left, right));
         }
         return pairs;
     }
 
-    class Pair {
-        String left;
-        String right;
+    private Object parseString(String string, boolean root) {
+        if (!string.contains(",")) { //single element
+            if (string.startsWith("[")) {
+                if (string.length() == 2) { //empty list
+                    return new ArrayList<>();
+                } else { // empty list in list
+                    List<Object> list = new ArrayList<>();
+                    list.add(parseString(string.substring(1, string.length() - 1), false));
+                    return list;
+                }
+            } else { //single number
+                return Integer.parseInt(string);
+            }
+        }
+        List<String> parts = splitByComma(string);
+        List<Object> list = new ArrayList<>();
+        for (String part: parts) {
+            if (part.startsWith("[")) {
+                if (root) {
+                    return parseString(part.substring(1, part.length() - 1), false);
+                } else if (part.equals("[]")) {
+                    list.add(new ArrayList<>());
+                } else {
+                    list.add(parseString(part.substring(1, part.length() - 1), false));
+                }
+            } else {
+                list.add(parseString(part, false));
+            }
+        }
+        return list;
+    }
 
-        public Pair(String left, String right) {
+    private List<String> splitByComma(String string) {
+        List<String> split = new ArrayList<>();
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
+            if (c >= '0' && c <= '9') {
+                StringBuilder builder = new StringBuilder();
+                builder.append(c);
+                while (i < string.length() - 1) {
+                    c = string.charAt(++i);
+                    if (c == ',') {
+                        break;
+                    }
+                    builder.append(c);
+                }
+                split.add(builder.toString());
+            } else if (string.charAt(i) == '[') {
+                StringBuilder builder = new StringBuilder();
+                int openBrackets = 1;
+                builder.append(c);
+                do {
+                    c = string.charAt(++i);
+                    if (c == '[') {
+                        openBrackets++;
+                    } else if (c == ']') {
+                        openBrackets--;
+                    }
+                    builder.append(c);
+                } while (openBrackets > 0);
+                split.add(builder.toString());
+            }
+        }
+        return split;
+    }
+
+    static class ListPair {
+        Object left;
+        Object right;
+
+        public ListPair(Object left, Object right) {
             this.left = left;
             this.right = right;
         }
