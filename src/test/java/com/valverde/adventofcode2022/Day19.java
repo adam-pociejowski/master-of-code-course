@@ -3,11 +3,9 @@ package com.valverde.adventofcode2022;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Template extends AbstractTask {
+public class Day19 extends AbstractTask {
 
     @BeforeEach
     void setup() {
@@ -16,12 +14,14 @@ public class Template extends AbstractTask {
     @Test
     void solution1() {
         final List<String> lines = readStringLines("inputTest.txt");
-
+        int result = 0;
+        System.out.println("SOLUTION 1: "+result);
     }
 
     @Test
     void solution2() {
         final List<String> lines = readStringLines("inputTest.txt");
-
+        int result = 0;
+        System.out.println("SOLUTION 2: "+result);
     }
 }
