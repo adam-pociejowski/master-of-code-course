@@ -20,7 +20,7 @@ public abstract class AbstractTask {
     }
 
     List<String> readStringLines(final String fileName) {
-        final File file = new File("input/%s".formatted(fileName));
+        final File file = new File("input/adventofcode2022/%s".formatted(fileName));
         try {
             return new ArrayList<>(Files
                     .readAllLines(file.toPath(), Charset.defaultCharset()));
@@ -51,7 +51,7 @@ public abstract class AbstractTask {
     }
 
     List<Integer> readIntLines(final String fileName) {
-        final File file = new File("input/%s".formatted(fileName));
+        final File file = new File("input/adventofcode2022/%s".formatted(fileName));
         try {
             return new ArrayList<>(Files
                     .readAllLines(file.toPath(), Charset.defaultCharset()))
