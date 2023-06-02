@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DepthSearchFirstTask {
+public class DepthFirstSearchTask {
 
     @Test
     void doDfsSearchRecursiveInOrder() {

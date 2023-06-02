@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BreadthSearchFirstTask {
+public class BreadthFirstSearchTask {
 
     @Test
     void doBfsSearchRecursive() {
