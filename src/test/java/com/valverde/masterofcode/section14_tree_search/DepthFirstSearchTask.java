@@ -76,6 +76,17 @@ public class DepthFirstSearchTask {
         assertEquals(9, nodes.get(6).getValue());
     }
 
+    @Test
+    void doDfsSearchRecursivePostOrder2() {
+        final BinarySearchTree tree = new BinarySearchTree();
+        tree.insert(9);
+        tree.insert(10);
+        final List<Node> nodes = dfsRecursivePostOrder(tree.getRoot());
+        assertEquals(2, nodes.size());
+        assertEquals(10, nodes.get(0).getValue());
+        assertEquals(9, nodes.get(1).getValue());
+    }
+
     private List<Node> dfsRecursiveInOrder(final Node node) {
         if (Objects.isNull(node.getLeft())) {
             return new ArrayList<>(Collections.singletonList(node));
@@ -98,7 +109,9 @@ public class DepthFirstSearchTask {
     }
 
     private List<Node> dfsRecursivePostOrder(final Node node) {
-        if (Objects.isNull(node.getLeft())) {
+        if (Objects.isNull(node)) {
+            return new ArrayList<>();
+        } else if (Objects.isNull(node.getLeft()) && Objects.isNull(node.getRight())) {
             return new ArrayList<>(Collections.singletonList(node));
         }
         final List<Node> nodes = new ArrayList<>();
