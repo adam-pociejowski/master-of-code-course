@@ -3,6 +3,7 @@ package com.valverde.google;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,21 +13,41 @@ public class OverlappingCircles {
     @Test
     void test1() {
         assertTrue(isGroup(Arrays.asList(new Circle(0, 0, 2), new Circle(2, 2, 1))));
+        assertTrue(isGroupRecursive(Arrays.asList(new Circle(0, 0, 2), new Circle(2, 2, 1))));
     }
 
     @Test
     void test2() {
         assertFalse(isGroup(Arrays.asList(new Circle(0, 0, 2), new Circle(2, 3, 1))));
+        assertFalse(isGroupRecursive(Arrays.asList(new Circle(0, 0, 2), new Circle(2, 3, 1))));
     }
 
     @Test
     void test3() {
         assertTrue(isGroup(Arrays.asList(new Circle(0, 0, 2), new Circle(4, 0, 1), new Circle(2, 0, 2))));
+        assertTrue(isGroupRecursive(Arrays.asList(new Circle(0, 0, 2), new Circle(4, 0, 1), new Circle(2, 0, 2))));
     }
 
     @Test
     void test4() {
         assertFalse(isGroup(Arrays.asList(new Circle(0, 0, 2), new Circle(10, 0, 1), new Circle(2, 0, 2), new Circle(11, 0, 2))));
+        assertFalse(isGroupRecursive(Arrays.asList(new Circle(0, 0, 2), new Circle(10, 0, 1), new Circle(2, 0, 2), new Circle(11, 0, 2))));
+    }
+
+    public boolean isGroupRecursive(List<Circle> circles) {
+        Set<Circle> group = new HashSet<>();
+        group.add(circles.get(0));
+        addRecursive(circles.get(0), circles, group);
+        return group.size() == circles.size();
+    }
+
+    private void addRecursive(Circle c, List<Circle> notVisited, Set<Circle> group) {
+        for (Circle c1 : notVisited) {
+            if (!group.contains(c1) && isOverlapping(c, c1)) {
+                group.add(c1);
+                addRecursive(c1, notVisited, group);
+            }
+        }
     }
 
     public boolean isGroup(List<Circle> circles) {
