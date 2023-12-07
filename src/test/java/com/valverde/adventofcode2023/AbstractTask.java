@@ -37,6 +37,14 @@ public abstract class AbstractTask {
         return set;
     }
 
+    List<String> stringToCharactersList(String string) {
+        List<String> set = new ArrayList<>();
+        for (int i = 0 ; i < string.length(); i++) {
+            set.add(String.valueOf(string.charAt(i)));
+        }
+        return set;
+    }
+
     List<String> readStringLines(final String fileName) {
         final File file = new File("input/adventofcode2023/%s".formatted(fileName));
         try {
